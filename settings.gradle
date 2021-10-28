@@ -1,0 +1,3 @@
+rootProject.name = "ObserverBus"
+include ':app'
+include ':ObserverBus'
