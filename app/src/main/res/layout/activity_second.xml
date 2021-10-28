@@ -18,8 +18,12 @@
         android:layout_height="wrap_content"
         android:text="NoParamNoResultFunction"
         android:onClick="executeNoParamNoResultFunction"/>
-
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="UserChangeFunction"
+        android:onClick="executeUserChangeFunction"/>
+<!--
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,5 +53,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="UserListChangeFunction"
-        android:onClick="executeUserListChangeFunction"/>
+        android:onClick="executeUserListChangeFunction"/>-->
 </LinearLayout>

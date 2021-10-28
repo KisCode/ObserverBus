@@ -1,9 +1,9 @@
 package kiscode.observer.bus.function;
 
-public class Function {
+public class Observer {
     public String functionName;
 
-    public Function(String functionName) {
+    public Observer(String functionName) {
         this.functionName = functionName;
     }
 }

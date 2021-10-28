@@ -7,14 +7,10 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
-
 import dem.kiscode.magic.observer.pojo.User;
 import kiscode.observer.bus.ObserverBus;
-import kiscode.observer.bus.function.HasParamHasResultFunction;
-import kiscode.observer.bus.function.HasParamNoResultFunction;
-import kiscode.observer.bus.function.NoParamHasResultFunction;
-import kiscode.observer.bus.function.NoParamNoResultFunction;
+import kiscode.observer.bus.function.DataObserver;
+import kiscode.observer.bus.function.NonDataObserver;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -44,54 +40,31 @@ public class MainActivity extends AppCompatActivity {
     private void unRegisterObserver() {
         ObserverBus.getInstance().unRegister(Constants.FUNCTION_1);
         ObserverBus.getInstance().unRegister(Constants.FUNCTION_2);
-        ObserverBus.getInstance().unRegister(Constants.FUNCTION_3);
-        ObserverBus.getInstance().unRegister(Constants.FUNCTION_4);
         ObserverBus.getInstance().unRegister(Constants.FUNCTION_USER_CHANGE);
-        ObserverBus.getInstance().unRegister(Constants.FUNCTION_USER_LIST_CHANGE);
     }
 
     private void registerObserver() {
-        ObserverBus.getInstance().register(new NoParamNoResultFunction(Constants.FUNCTION_1) {
+        //无数据监听
+        ObserverBus.getInstance().register(new NonDataObserver(Constants.FUNCTION_1) {
             @Override
-            public void function() {
-                Log.i(TAG, Constants.FUNCTION_1 + "\tNoParamNoResultFunction");
+            public void observer() {
+                Log.i(TAG, Constants.FUNCTION_1 + "\tNonDataObserver");
             }
         });
 
-        ObserverBus.getInstance().register(new NoParamHasResultFunction<String>(Constants.FUNCTION_2) {
+        //有数据监听
+        ObserverBus.getInstance().register(new DataObserver<String>(Constants.FUNCTION_2) {
             @Override
-            public String function() {
-                Log.i(TAG, Constants.FUNCTION_2 + "\tNoParamHasResultFunction ，return type is String");
-                return "调用了无参方法" + Constants.FUNCTION_2;
+            public void observer(String data) {
+                Log.i(TAG, Constants.FUNCTION_2 + "\tDataObserver,param  is " + data);
             }
         });
 
-        ObserverBus.getInstance().register(new HasParamNoResultFunction<String>(Constants.FUNCTION_3) {
-
+        //有数据监听
+        ObserverBus.getInstance().register(new DataObserver<User>(Constants.FUNCTION_USER_CHANGE) {
             @Override
-            public void function(String param) {
-                Log.i(TAG, Constants.FUNCTION_3 + "\tHasParamNoResultFunction , param value is " + param);
-            }
-        });
-
-        ObserverBus.getInstance().register(new HasParamHasResultFunction<Integer, String>(Constants.FUNCTION_4) {
-            @Override
-            public String function(Integer param) {
-                Log.i(TAG, Constants.FUNCTION_4 + "\tHasParamHasResultFunction , param value is " + param+" ，return type is String");
-                return null;
-            }
-        });
-
-        ObserverBus.getInstance().register(new HasParamNoResultFunction<User>(Constants.FUNCTION_USER_CHANGE) {
-            @Override
-            public void function(User user) {
-                Log.i(TAG, Constants.FUNCTION_USER_CHANGE + "\tHasParamNoResultFunction , user is " + user);
-            }
-        });
-        ObserverBus.getInstance().register(new HasParamNoResultFunction<List<User>>(Constants.FUNCTION_USER_LIST_CHANGE) {
-            @Override
-            public void function(List<User> userList) {
-                Log.i(TAG, Constants.FUNCTION_USER_LIST_CHANGE + "\tHasParamNoResultFunction , user size is " + userList.size());
+            public void observer(User user) {
+                Log.i(TAG, functionName + "\tDataObserver,user is " + user.toString());
             }
         });
     }
